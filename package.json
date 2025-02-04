@@ -3,14 +3,17 @@
     "version": "1.0.0",
     "main": "dist/main.js",
     "scripts": {
-      "start": "electron .",
-      "build": "tsc"
+        "start": "electron .",
+        "build": "tsc"
     },
     "dependencies": {
-      "electron": "^26.0.0",
-      "pdf2json": "^2.0.1"
+        "autoprefixer": "^10.4.20",
+        "electron": "^26.0.0",
+        "pdf2json": "^2.0.2",
+        "postcss": "^8.5.1",
+        "tailwindcss": "^4.0.3"
     },
     "devDependencies": {
-      "typescript": "^5.2.2"
+        "typescript": "^5.2.2"
     }
-  }
+}

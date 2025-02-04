@@ -4,30 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF-Analyzer</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h2>PDF-Analyzer</h2>
+    <div class="container">
+        <h2>📄 PDF-Analyzer</h2>
 
-    <input type="text" id="folderPath" placeholder="Ordner wählen..." readonly>
-    <button id="selectFolderBtn">📂 Ordner wählen</button>
-    <button id="readPdfsBtn">📄 PDFs analysieren</button>
+        <input type="text" id="folderPath" placeholder="Ordner wählen..." readonly>
 
-    <h3>Gefundene Dateien:</h3>
-    <ul id="fileList"></ul>
+        <button id="selectFolderBtn">📂 Ordner wählen</button>
+        <button id="readPdfsBtn">📄 PDFs analysieren</button>
 
-    <h3>Analyse:</h3>
-    <table id="resultsTable">
-        <thead>
-            <tr>
-                <th>Dateiname</th>
-                <th>Homeoffice Stunden</th>
-                <th>Büro Stunden</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+        <h3>Gefundene Dateien:</h3>
+        <ul id="fileList"></ul>
 
-    <script src="renderer.js"></script>
+        <h3>Analyse:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Dateiname</th>
+                    <th>🏠 Homeoffice (h)</th>
+                    <th>🏢 Büro (h)</th>
+                </tr>
+            </thead>
+            <tbody id="resultsTable"></tbody>
+        </table>
+
+        <button id="themeToggle">🌙 Light/Dark Mode</button>
+    </div>
+
+    <script>
+        document.getElementById("themeToggle").addEventListener("click", function() {
+            document.body.classList.toggle("light-mode");
+        });
+    </script>
+
+    <script src="../dist/renderer.js"></script>
+    
+
 </body>
+
+
 </html>

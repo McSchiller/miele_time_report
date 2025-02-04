@@ -52,27 +52,34 @@ const pdf2json_1 = __importDefault(require("pdf2json"));
 let mainWindow = null;
 electron_1.app.whenReady().then(() => {
     mainWindow = new electron_1.BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 1200,
+        height: 800,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             contextIsolation: true
         }
     });
+    mainWindow.webContents.openDevTools();
     mainWindow.loadFile('src/index.html');
 });
-// Ordnerauswahl
+// 📂 Ordner-Dialog öffnen
 electron_1.ipcMain.handle('select-folder', () => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("📂 select-folder Event wurde ausgelöst!");
     const result = yield electron_1.dialog.showOpenDialog(mainWindow, {
         properties: ['openDirectory']
     });
+    console.log("📁 Gewählter Ordner:", result.filePaths[0] || "Keiner");
     return result.filePaths[0] || null;
 }));
 // PDFs im Ordner analysieren
 electron_1.ipcMain.handle('read-pdfs', (_, folderPath) => __awaiter(void 0, void 0, void 0, function* () {
-    const files = fs.readdirSync(folderPath).filter(file => file.endsWith('.pdf'));
+    console.log("📂 read-pdfs Event wurde ausgelöst!");
+    const files = fs.readdirSync(folderPath);
+    console.table(files);
+    const pdfFiles = files.filter(file => file.endsWith('.pdf'));
+    console.log("📄 PDF-Dateien:", files);
     const pdfData = [];
-    for (const file of files) {
+    for (const file of pdfFiles) {
         const filePath = path.join(folderPath, file);
         const extractedData = yield extractDataFromPdf(filePath);
         pdfData.push({ filename: file, data: extractedData });
@@ -82,6 +89,7 @@ electron_1.ipcMain.handle('read-pdfs', (_, folderPath) => __awaiter(void 0, void
 // Funktion zur Datenextraktion mit pdf2json
 function extractDataFromPdf(filePath) {
     return new Promise((resolve, reject) => {
+        console.log("📄 PDF-Datei wird analysiert:", filePath);
         let pdfParser = new pdf2json_1.default();
         pdfParser.on("pdfParser_dataReady", pdfData => {
             const textBlocks = pdfData.formImage.Pages.flatMap((page) => page.Texts.map((text) => decodeURIComponent(text.R.map((r) => r.T).join(' '))));

@@ -1,0 +1,16 @@
+{
+    "name": "miele-time-report",
+    "version": "1.0.0",
+    "main": "dist/main.js",
+    "scripts": {
+      "start": "electron .",
+      "build": "tsc"
+    },
+    "dependencies": {
+      "electron": "^26.0.0",
+      "pdf2json": "^2.0.1"
+    },
+    "devDependencies": {
+      "typescript": "^5.2.2"
+    }
+  }

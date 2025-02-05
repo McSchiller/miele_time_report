@@ -37,9 +37,11 @@ document.addEventListener("DOMContentLoaded", () => {
     
 
         const pdfs = await (window as any).electronAPI.readPdfs(folderPath);
+
+        console.log("📄 PDFs:", pdfs);
         
         const fileList = document.getElementById('fileList')!;
-        const resultsTable = document.getElementById('resultsTable')!.querySelector('tbody')!;
+        const resultsTable = document.getElementById('resultsTable')!;
 
         fileList.innerHTML = "";
         resultsTable.innerHTML = "";
@@ -49,11 +51,16 @@ document.addEventListener("DOMContentLoaded", () => {
             listItem.textContent = pdf.filename;
             fileList.appendChild(listItem);
 
+            const monthSum = pdf.data.homeOfficeHours + pdf.data.officeHours;
+            const homeOfficeHoursAverage = (pdf.data.homeOfficeHours / monthSum * 100).toFixed(2);
+            const officeHoursAverage = (pdf.data.officeHours / monthSum * 100).toFixed(2);
+
             const row = document.createElement('tr');
             row.innerHTML = `<td>${pdf.filename}</td>
-                            <td>${pdf.data.homeOfficeHours} Stunden</td>
-                            <td>${pdf.data.officeHours} Stunden</td>`;
+                            <td>${pdf.data.homeOfficeHours} Stunden  ( ${homeOfficeHoursAverage} % )</td>
+                            <td>${pdf.data.officeHours} Stunden ( ${officeHoursAverage} % )</td>`;
             resultsTable.appendChild(row);
+
         });
     });
 });
